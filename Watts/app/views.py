@@ -21,3 +21,17 @@ class AddLocacao(View):
         )
         locacao.save()
         return redirect('app:home')
+class AddComodo(View):
+    def get(self, request):
+        return render(request, 'AddComodo.html')
+
+    def post(self, request):
+        name = request.POST.get("nome")
+        room = request.POST.get("comodo")
+
+        comodo = comodo(
+            nome = name,
+            comodo = room
+        )
+        comodo.save()
+        return redirect('app:home')

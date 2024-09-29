@@ -4,6 +4,9 @@ class Locacao(models.Model):
     estado = models.CharField(max_length=50) 
     nome = models.CharField(max_length=100)
 
+class Comodo(models.Model):
+    comodo = models.CharField(max_length=50) 
+    nome = models.CharField(max_length=100)
 
 
 #class Comodo(models.Model):
