@@ -6,4 +6,6 @@ app_name = 'app'
 urlpatterns = [
     path('', views.HomeViews.as_view(), name ='home'),
     path('addLocacao/', views.AddLocacao.as_view(), name = 'addLocacao'),
+    path('addComodo/', views.CriarComodo, name = 'addComodo'),
+    path('addPontodeenergia/', views.CriarPontodeenergia, name = 'addPontodeenergia'),
 ]
