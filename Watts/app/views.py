@@ -44,6 +44,10 @@ class CriarComodo(View):
         locacao_id = request.POST.get('locacao')
         nome_comodo = request.POST.get('nome')
 
+        if not locacao_id:
+            locacoes = Locacao.objects.all()
+            return render(request, 'AddComodo.html', {'locacoes': locacoes, 'error': 'Selecione uma locação válida!'})
+
         try:
             locacao = Locacao.objects.get(id=locacao_id)
             Comodo.objects.create(locacao=locacao, nome=nome_comodo)
@@ -77,11 +81,23 @@ class CriarPontodeenergia(View):
 
             # Verificação: o cômodo pertence à locação selecionada?
             if comodo.locacao_id != int(locacao_id):
-                return HttpResponse("Erro: O cômodo selecionado não pertence à locação escolhida.", status=400)
+                locacoes = Locacao.objects.all()
+                comodos = Comodo.objects.all()
+                return render(request, 'AddPontodeenergia.html', {
+                    'locacoes': locacoes,
+                    'comodos': comodos,
+                    'error': 'O cômodo selecionado não pertence à locação escolhida.'
+                })
 
-            # Validação: quantidade de aparelhos e gastos de energia não podem ser negativos
-            if int(quantidadeAparelhos) < 0 or float(quant_gastos) < 0:
-                return HttpResponse("Erro: A quantidade de aparelhos e o gasto de energia não podem ser negativos.", status=400)
+            # Validação: quantidade de aparelhos e gastos de energia não podem ser negativos ou zero
+            if int(quantidadeAparelhos) <= 0 or float(quant_gastos) <= 0:
+                locacoes = Locacao.objects.all()
+                comodos = Comodo.objects.all()
+                return render(request, 'AddPontodeenergia.html', {
+                    'locacoes': locacoes,
+                    'comodos': comodos,
+                    'error': 'A quantidade de aparelhos e o gasto de energia devem ser maiores que zero.'
+                })
 
             # Se a verificação for bem-sucedida, cria o ponto de energia
             Pontodeenergia.objects.create(
