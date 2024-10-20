@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Cômodo</title>
+</head>
+<body>
+    <h1>Adicionar Cômodo</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="locacao">Locação:</label>
+        <select name="locacao" id="locacao">
+            {% for locacao in locacoes %}
+                <option value="{{ locacao.id }}">{{ locacao.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="nome">Nome do Cômodo:</label>
+        <input type="text" name="nome" id="nome">
+        <br>
+        <button type="submit">Adicionar Cômodo</button>
+    </form>
+</body>
+</html>
